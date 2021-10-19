@@ -49,21 +49,27 @@ def uniformCostSearch(grafo, nodoInicial = "Arad", meta = "Bucharest"):
     frontera = PriorityQueue()
     frontera.put(nodoRaiz)
     explorados = list()
+    i = 0
     while( True):
         bandera = 0 
-        bandera2 = 0
+        
         
         if(frontera.empty()):
             print("frontera vacia")
             return
         nodo=frontera.get()
+        #imprimiendo el paso:
+        print("Paso #",i,"\nCosto:",nodo[0],"Nodo visitado:",nodo[1],"Ruta:",nodo[2])
+        print("Lista de nodos explorados:",explorados)
+        i +=1
+
         if(nodo[1]==meta):
             break
         explorados.append(nodo[1])
         
         for x in grafo.adj[nodo[1]]:
             #frontera, ponle el costo acumulado(grafo.edges...), el nodo actual (x) y la ruta hasta antes del nodo 
-            nodoHijo = (grafo.edges[nodo[1],x]['cost']+nodo[0],x,nodo[2]+' '+nodo[1])
+            nodoHijo = (grafo.edges[nodo[1],x]['cost']+nodo[0],x,nodo[2]+" | "+nodo[1])
             if (x not in explorados):
                 
                 for each in list(frontera.queue):
@@ -81,11 +87,13 @@ def uniformCostSearch(grafo, nodoInicial = "Arad", meta = "Bucharest"):
         
     # print(explorados)
             
-    print("Costo: ",nodo[0],"Ruta:",nodo[2],nodo[1])
+    print("Ruta óptima!:\nCosto: ",nodo[0],"Ruta:",nodo[2],"| ",nodo[1])
         
 if(len(sys.argv)==3):
     uniformCostSearch(metro,sys.argv[1],sys.argv[2])
+elif (len(sys.argv)>=3):
+    uniformCostSearch(metro,sys.argv[1],sys.argv[2])
 else:
     print("Sólo recibe 2 argumentos! Ejemplos de ejecución")
-    uniformCostSearch(metro,"Bucharest","Arad")
+    
     uniformCostSearch(metro,"Sibiu","Bucharest")
