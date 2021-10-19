@@ -1,4 +1,6 @@
 import networkx as nx
+import sys
+import heapq 
 from networkx.classes.function import is_empty
 from networkx.classes.reportviews import NodeView
 from queue import PriorityQueue
@@ -41,7 +43,7 @@ metro.add_edges_from(  #23 edges
 
 
 def uniformCostSearch(grafo, nodoInicial = "Arad", meta = "Bucharest"):
-    print("empieza")
+    
     ##(costo, último nodo de la ruta, ruta)
     nodoRaiz = (0,nodoInicial,"")
     frontera = PriorityQueue()
@@ -49,13 +51,13 @@ def uniformCostSearch(grafo, nodoInicial = "Arad", meta = "Bucharest"):
     explorados = list()
     while( True):
         bandera = 0 
+        bandera2 = 0
         
         if(frontera.empty()):
             print("frontera vacia")
-            break
+            return
         nodo=frontera.get()
         if(nodo[1]==meta):
-            print("llegaste a la meta")
             break
         explorados.append(nodo[1])
         
@@ -69,12 +71,21 @@ def uniformCostSearch(grafo, nodoInicial = "Arad", meta = "Bucharest"):
                         bandera = 1
                 if bandera == 0:
                     frontera.put(nodoHijo)
-            # elif
+                else:
+                    if (each[1] == nodoHijo [1]) and (each[0]> nodoHijo[0]) :
+                        frontera.queue.remove(each)
+                        heapq.heapify(frontera.queue)
+                        frontera.put(nodoHijo)
+                        
+
         
     # print(explorados)
             
     print("Costo: ",nodo[0],"Ruta:",nodo[2],nodo[1])
         
-        
-
-uniformCostSearch(metro,"Bucharest","Arad")
+if(len(sys.argv)==3):
+    uniformCostSearch(metro,sys.argv[1],sys.argv[2])
+else:
+    print("Sólo recibe 2 argumentos! Ejemplos de ejecución")
+    uniformCostSearch(metro,"Bucharest","Arad")
+    uniformCostSearch(metro,"Sibiu","Bucharest")
