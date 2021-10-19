@@ -59,9 +59,11 @@ def uniformCostSearch(grafo, nodoInicial = "Arad", meta = "Bucharest"):
             return
         nodo=frontera.get()
         #imprimiendo el paso:
-        print("Paso #",i,"\nCosto:",nodo[0],"Nodo visitado:",nodo[1],"Ruta:",nodo[2])
-        print("Lista de nodos explorados:",explorados)
-        i +=1
+        if(len(sys.argv)>=4):
+            if(sys.argv[3]=="-p"):
+                print("Paso #",i,"\nCosto:",nodo[0],"Nodo visitado:",nodo[1],"Ruta:",nodo[2])
+                print("Lista de nodos explorados:",explorados)
+                i +=1
 
         if(nodo[1]==meta):
             break
@@ -89,11 +91,13 @@ def uniformCostSearch(grafo, nodoInicial = "Arad", meta = "Bucharest"):
             
     print("Ruta óptima!:\nCosto: ",nodo[0],"Ruta:",nodo[2],"| ",nodo[1])
         
-if(len(sys.argv)==3):
-    uniformCostSearch(metro,sys.argv[1],sys.argv[2])
-elif (len(sys.argv)>=3):
+if(len(sys.argv)>=3):
     uniformCostSearch(metro,sys.argv[1],sys.argv[2])
 else:
-    print("Sólo recibe 2 argumentos! Ejemplos de ejecución")
+    print("Sólo recibe 2 argumentos! Ejemplos de ejecución: \npython3 Zerind Hirsova: -> Zerind a Hirsova")
     
-    uniformCostSearch(metro,"Sibiu","Bucharest")
+    uniformCostSearch(metro,"Zerind","Hirsova")
+    print("y\npython3 Iasi Timisoara -> Iasi a Timisoara:")
+    uniformCostSearch(metro,"Iasi","Timisoara")
+    print("Si se desea mostar paso a paso agregar -p al final")
+    
