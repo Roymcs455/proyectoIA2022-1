@@ -38,28 +38,43 @@ metro.add_edges_from(  #23 edges
                         ("Iasi","Neamt",{'cost':87})
                         
 ])
+
+
 def uniformCostSearch(grafo, nodoInicial = "Arad", meta = "Bucharest"):
-    costo = 0
-    frontera = PriorityQueue() #meter los nodos frontera de nodoInicial
-    nodosExplorados = list()
-    frontera.put((0,nodoInicial))
-    while(True):
-        nodoActual = frontera.get()
-        for x in grafo.adj[nodoActual[1]]:
-            if x[1] in nodosExplorados:
-                nodoActual = nodoActual #no hace nada
-            else:
-                frontera.put((grafo.edges[nodoActual[1],x]['cost'],x))
-        #if frontera is empty return fail
+    print("empieza")
+    ##(costo, último nodo de la ruta, ruta)
+    nodoRaiz = (0,nodoInicial,"")
+    frontera = PriorityQueue()
+    frontera.put(nodoRaiz)
+    explorados = list()
+    while( True):
+        bandera = 0 
+        
         if(frontera.empty()):
-            print("Fail")
+            print("frontera vacia")
             break
-        #if goal is nodoActual return solution
-        print(nodoActual[1])
-        if nodoActual[1] == meta:
-            print("Costo",nodoActual[0],"ruta: ",nodoActual[1])
-            return nodoActual #necesita retornar el camino
-        else:
-            nodosExplorados.append(nodoActual[1])
+        nodo=frontera.get()
+        if(nodo[1]==meta):
+            print("llegaste a la meta")
+            break
+        explorados.append(nodo[1])
+        
+        for x in grafo.adj[nodo[1]]:
+            #frontera, ponle el costo acumulado(grafo.edges...), el nodo actual (x) y la ruta hasta antes del nodo 
+            nodoHijo = (grafo.edges[nodo[1],x]['cost']+nodo[0],x,nodo[2]+' '+nodo[1])
+            if (x not in explorados):
+                
+                for each in list(frontera.queue):
+                    if each[1] == x :
+                        bandera = 1
+                if bandera == 0:
+                    frontera.put(nodoHijo)
+            # elif
+        
+    # print(explorados)
+            
+    print("Costo: ",nodo[0],"Ruta:",nodo[2],nodo[1])
+        
+        
 
 uniformCostSearch(metro,"Bucharest","Arad")
